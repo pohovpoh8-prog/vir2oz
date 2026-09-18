@@ -26,7 +26,7 @@ async def root():
     return {"status": "ok"}
 
 
-@app.post("/api/webhook")
+@app.post("/webhook")
 async def webhook(request: Request):
     data = await request.json()
 
