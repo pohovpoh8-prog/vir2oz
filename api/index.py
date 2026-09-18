@@ -1,21 +1,18 @@
 import os
 
-from dotenv import load_dotenv
 from fastapi import FastAPI, Request
 from openai import OpenAI
 from telegram import Bot
 
 
-load_dotenv()
-
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 if not TELEGRAM_BOT_TOKEN:
-    raise RuntimeError("TELEGRAM_BOT_TOKEN не найден")
+    raise RuntimeError("TELEGRAM_BOT_TOKEN is missing")
 
 if not OPENAI_API_KEY:
-    raise RuntimeError("OPENAI_API_KEY не найден")
+    raise RuntimeError("OPENAI_API_KEY is missing")
 
 
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -33,7 +30,7 @@ async def root():
 async def webhook(request: Request):
     data = await request.json()
 
-    message = data.get("message", {})
+    message = data.get("message")
 
     if not message:
         return {"ok": True}
@@ -55,14 +52,12 @@ async def webhook(request: Request):
 
     response = client.responses.create(
         model="gpt-5.6-luna",
-        input=question
+        input=question,
     )
-
-    answer = response.output_text
 
     await bot.send_message(
         chat_id=chat_id,
-        text=answer
+        text=response.output_text,
     )
 
     return {"ok": True}
