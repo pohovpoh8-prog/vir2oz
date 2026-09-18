@@ -48,3 +48,6 @@ async def handler(request):
         )
 
     return {"ok": True}
+
+
+app = handler
