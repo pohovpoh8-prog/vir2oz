@@ -1,6 +1,7 @@
 {
   "functions": {
-    "api/index.py": {"maxDuration": 60},
-    "api/webhook.py": {"maxDuration": 60}
+    "api/index.py": {
+      "maxDuration": 60
+    }
   }
 }

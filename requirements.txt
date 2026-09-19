@@ -1,3 +1,3 @@
-fastapi
-openai
-python-telegram-bot
+fastapi>=0.115
+openai>=1.0
+python-telegram-bot>=22.0,<23.0
