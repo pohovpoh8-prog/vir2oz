@@ -1,25 +1,25 @@
-# vir2oz — final Vercel version
+# vir2oz — Vercel
 
-## Environment Variables
-Add in Vercel:
-- TELEGRAM_BOT_TOKEN (Secret)
-- OPENAI_API_KEY (Secret)
-- OPENAI_MODEL (optional, default: gpt-5.6-luna)
+Структура:
+- app.py
+- requirements.txt
+- README.md
 
-## Routes
-GET  /api
-GET  /api/webhook
-POST /api/webhook
+Environment Variables в Vercel:
+- TELEGRAM_BOT_TOKEN
+- OPENAI_API_KEY
+- OPENAI_MODEL (необязательно; по умолчанию gpt-5.6-luna)
 
-## Telegram
-Set webhook to:
-https://YOUR-DOMAIN.vercel.app/api/webhook
+После Deploy Telegram webhook должен быть:
+https://vir2oz-r7ir.vercel.app/webhook
 
-Then verify with getWebhookInfo.
+Проверка:
+https://vir2oz-r7ir.vercel.app/webhook
 
-Bot command:
-`/v2 your question`
-or in groups:
-`/v2@YourBotName your question`
+Ожидаемый ответ:
+{"status":"ok","service":"vir2oz-webhook"}
 
-Do not run the polling `bot.py` at the same time.
+Команда в Telegram:
+ /v2 Привет
+
+Не запускайте одновременно polling-версию bot.py и webhook-версию Vercel для одного бота.
