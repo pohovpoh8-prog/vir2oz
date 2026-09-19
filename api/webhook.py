@@ -37,17 +37,22 @@ async def webhook(request: Request):
     if not chat_id:
         return {"ok": True}
 
-    # Support /vir2oz, /vir2oz@botname, and ordinary text messages.
-    command = text.split(maxsplit=1)[0].lower() if text.startswith("/") else ""
-    if command.startswith("/vir2oz"):
-        question = text.split(maxsplit=1)[1].strip() if len(text.split(maxsplit=1)) > 1 else ""
+    # In groups the bot responds only to /v2 and /v2@botname.
+    # This keeps ordinary group chatter untouched.
+    chat_type = chat.get("type", "")
+    parts = text.split(maxsplit=1)
+    command = parts[0].lower() if parts and text.startswith("/") else ""
+    base_command = command.split("@", 1)[0]
+
+    if base_command == "/v2":
+        question = parts[1].strip() if len(parts) > 1 else ""
         if not question:
             bot, _ = get_clients()
-            await bot.send_message(chat_id=chat_id, text="Напиши вопрос после /vir2oz 🙂")
+            await bot.send_message(chat_id=chat_id, text="Напиши вопрос после /v2 🙂")
             return {"ok": True}
-    elif text:
-        question = text
     else:
+        # In groups/supergroups/channels, ignore everything except /v2.
+        # In private chats, also require /v2 so behavior is consistent.
         return {"ok": True}
 
     bot, client = get_clients()
